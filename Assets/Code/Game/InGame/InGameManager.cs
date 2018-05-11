@@ -10,7 +10,6 @@ public class InGameManager : MonoBehaviour {
     GameTouchController gameTouchController;
     public InGameLevelManager inGameLevelManager;
     public InGameUIManager inGameUIManager;
-    public InGameColorManager inGameColorManager;
 
     public GameEffectManager gameEffectManager;
 
@@ -73,7 +72,7 @@ public class InGameManager : MonoBehaviour {
             StartCoroutine(ReadConfigFile(UserDataManager.selLevel.file_path));
         }
        // 
-
+        ADManager.GetInstance().PlayGameOverAD();
 
     }
 
@@ -101,8 +100,8 @@ public class InGameManager : MonoBehaviour {
         modelManager = InGameBaseModel.Create(selmodel);
         modelManager.Init();
 
-        inGameColorManager = new InGameColorManager();
-        inGameColorManager.Init();
+        InGameColorManager.GetInstance().Init();
+        inGameUIManager.gamePadManager.scoreslabel.SetColor(InGameColorManager.GetInstance().bgColor);
 
         gameState = enGameState.playing;
 
@@ -132,7 +131,6 @@ public class InGameManager : MonoBehaviour {
         if (gameTouchController != null) gameTouchController.Update();
         if (inGameLevelManager != null)inGameLevelManager.Update();
         if (modelManager != null) modelManager.Update();
-        if (inGameColorManager != null) inGameColorManager.Update();
 
         if (role != null) role.RoleUpdate();
 	}
@@ -143,7 +141,6 @@ public class InGameManager : MonoBehaviour {
         if (inGameLevelManager != null) inGameLevelManager.Destroy();
         if (inGameUIManager != null) inGameUIManager.Destroy();
         if (modelManager != null) modelManager.Destroy();
-        if (inGameColorManager != null) inGameColorManager.Destroy();
         if (gameEffectManager != null) gameEffectManager.Destroy();
 
     }

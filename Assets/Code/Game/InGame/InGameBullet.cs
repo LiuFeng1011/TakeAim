@@ -52,7 +52,7 @@ public class InGameBullet : InGameBaseObj {
             if(dis < (transform.localScale.x + obj.transform.localScale.x) * 0.4f){
                 SetDie();
                 obj.SetDie();
-                InGameManager.GetInstance().role.AddScores(1,false,obj);
+                InGameManager.GetInstance().role.AddScores(1, true,obj);
                 return;
             }
         }

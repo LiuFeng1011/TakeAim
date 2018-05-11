@@ -2,10 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InGameColorManager : BaseGameObject {
+public class InGameColorManager{
+    private static InGameColorManager instance;
+
+    public static InGameColorManager GetInstance(){
+        if(instance == null){
+            instance = new InGameColorManager();
+            instance.Init();
+        }
+        return instance;
+    }
+
     float rand,targetRand, updateTime = 0f, maxUpdateTime = 0.1f;
 
     public Color objColor1, objColor2, bgColor;
+
     public void Init(){
         rand = Random.Range(0f,3.14f);
         targetRand = rand;
@@ -51,20 +62,21 @@ public class InGameColorManager : BaseGameObject {
         
         float h, s, v;
         h = Mathf.Abs(Mathf.Sin(rand));
-        s = 0.5f;
-        v = 0.7f;
+        s = 0.6f;
+        v = 0.8f;
 
         objColor1   = Color.HSVToRGB(h, s, v);
 
-        objColor2   = Color.HSVToRGB(h, 1f, 0.3f);
+        bgColor = Color.HSVToRGB(h, 1f, 1f);
 
-        h = Mathf.Abs(Mathf.Sin(rand + 0.3f));
-        bgColor     = Color.HSVToRGB(h, s, v);
+        h += 0.33f;
+        objColor2   = Color.HSVToRGB(h - (int)h, s, v);
 
 
-        Camera.main.backgroundColor = objColor1;
 
-        InGameManager.GetInstance().inGameUIManager.gamePadManager.scoreslabel.SetColor(objColor2);
+        //Camera.main.backgroundColor = objColor1;
+
+        //InGameManager.GetInstance().inGameUIManager.gamePadManager.scoreslabel.SetColor(objColor2);
     }
 
     public void Destroy(){

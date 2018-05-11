@@ -9,7 +9,7 @@ public class PurchaseManager : MonoBehaviour, IStoreListener
     //public BuyManager buyManager;
 
     private IStoreController controller;
-    private IExtensionProvider m_StoreExtensionProvider; 
+    private IExtensionProvider m_StoreExtensionProvider;
 
 
     public static PurchaseManager GetInstance()
@@ -84,7 +84,7 @@ public class PurchaseManager : MonoBehaviour, IStoreListener
 
     public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs e)
     {
-        PlayerPrefs.SetInt("noad",1);
+        PlayerPrefs.SetInt("noad", 1);
         return PurchaseProcessingResult.Complete;
 
     }
@@ -104,24 +104,31 @@ public class PurchaseManager : MonoBehaviour, IStoreListener
     }
 
 
-    public void DoIapPurchase (Action<bool, string> callback) {  
-        if (controller != null) {  
-            var product = controller.products.WithID ("TouchColorRemoveADS");  
-            if (product != null && product.availableToPurchase) {  
+    public void DoIapPurchase(Action<bool, string> callback)
+    {
+        if (controller != null)
+        {
+            var product = controller.products.WithID("TouchColorRemoveADS");
+            if (product != null && product.availableToPurchase)
+            {
                 //调起支付  
-                controller.InitiatePurchase(product);  
-            }  
-            else {  
-                callback (false, "no available product");  
-            }  
-        }  
-        else {  
-            callback ( false, "m_Controller is null");  
-        }  
-    }  
+                controller.InitiatePurchase(product);
+            }
+            else
+            {
+                callback(false, "no available product");
+            }
+        }
+        else
+        {
+            callback(false, "m_Controller is null");
+        }
+    }
 
-    public void RestorePurchases()  
-    {  
+    public void RestorePurchases()
+    {
+
+#if IAP
         if (Application.platform == RuntimePlatform.IPhonePlayer ||   
             Application.platform == RuntimePlatform.OSXPlayer)  
         {  
@@ -136,5 +143,6 @@ public class PurchaseManager : MonoBehaviour, IStoreListener
         {  
             Debug.Log("RestorePurchases FAIL. Not supported on this platform. Current = " + Application.platform);  
         }  
+#endif
     }  
 }

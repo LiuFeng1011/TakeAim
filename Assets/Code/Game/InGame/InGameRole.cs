@@ -115,17 +115,26 @@ public class InGameRole : InGameBaseObj {
     public void AddScores(int score,bool iscombo,InGameBaseObj source)
     {
         int s = score;
-        if(iscombo){
-            combo++;
-            scores += combo;
-            s = combo;
-        }else {
-            combo = 0;
-            scores += score;
-        }
-
+        //if(iscombo){
+        //    combo++;
+        //    scores += combo;
+        //    s = combo;
+        //}else {
+        //    combo = 0;
+        //    scores += score;
+        //}
+        scores += score;
         InGameManager.GetInstance().inGameUIManager.AddScores(source.transform.position, s, scores,iscombo, true);
-        InGameManager.GetInstance().inGameColorManager.SetColor((float)score * (iscombo ? 1f /* ((float)combo * 0.3f)*/ : 0.1f  ));
+        //InGameManager.GetInstance().inGameColorManager.SetColor((float)score * (iscombo ? 1f /* ((float)combo * 0.3f)*/ : 0.1f  ));
+
+        //Vector3[] ps = {
+        //    source.transform.position,
+        //    new Vector3(0,source.transform.position.y + source.transform.position.x /*Random.Range(8f,15f)*/,0),
+        //                InGameManager.GetInstance().inGameUIManager.gamePadManager.comboLabelPos -
+        //                new Vector3(0,Random.Range(8f,15f),0),
+        //                InGameManager.GetInstance().inGameUIManager.gamePadManager.comboLabelPos
+        //            };
+        //ComboFlyObj.Create(ps);
     }
 
 

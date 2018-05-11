@@ -8,9 +8,11 @@ public class InGameCreateObjManager : BaseGameObject {
     const float MAX_ADDHEIGHT = 4.0f, MIN_ADDHEIGHT = 0.8f;
     const float MAX_ADD_SAW_TIME = 3f,MAX_ADD_STEP_TIME = 7f;
 
-    float lastAddTime = 0, addDis = 0;
+    float lastAddTime = 0, addTime = 1f, addDis = 0;
 
-    InGameBaseObj step = null;
+    int maxCount = 3;
+
+    List<InGameBaseObj> steps = new List<InGameBaseObj>();
 
     public void Init()
     {
@@ -22,7 +24,16 @@ public class InGameCreateObjManager : BaseGameObject {
     }
 
     void AddStepUpdate(){
-        if (step != null) return;
+        lastAddTime += Time.deltaTime;
+        if (lastAddTime < addTime) return;
+
+        int count = steps.Count-1;
+        for (int i = count; i >= 0; i--){
+            if (steps[i] == null) steps.RemoveAt(i);
+        }
+
+        if (steps.Count >= maxCount) return;
+
         Rect gamerect = InGameManager.GetInstance().GetGameRect();
 
         float y = InGameManager.GetInstance().role.transform.position.y + 2;
@@ -30,7 +41,9 @@ public class InGameCreateObjManager : BaseGameObject {
 
         InGameBaseObj obj = AddItem("InGameStep", y + rand);
 
-        step = obj;
+        steps.Add(obj);
+
+        lastAddTime = 0;
     }
 
     InGameBaseObj AddItem(string id, float height){
